@@ -12,4 +12,5 @@ dependencies {
     implementation(libs.kotlin.stdlib)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.hilt.javax)
+    implementation(libs.androidx.paging.common.ktx)
 }

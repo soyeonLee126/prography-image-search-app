@@ -1,4 +1,8 @@
 package com.example.domain.usecase
 
-class GetRandomImagesUsecase {
+import com.example.domain.repository.UnsplashImageRepository
+
+class GetRandomImagesUsecase (private val unsplashImageRepository: UnsplashImageRepository) {
+    suspend operator fun invoke() = unsplashImageRepository.getRandomImage()
+
 }

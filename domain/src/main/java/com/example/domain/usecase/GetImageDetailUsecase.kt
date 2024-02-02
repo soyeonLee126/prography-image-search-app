@@ -1,4 +1,8 @@
 package com.example.domain.usecase
 
-class GetImageDetailUsecase {
+import com.example.domain.repository.UnsplashImageRepository
+
+class GetImageDetailUsecase (private val unsplashImageRepository: UnsplashImageRepository) {
+    suspend operator fun invoke() = unsplashImageRepository.getImageDetail()
+
 }
