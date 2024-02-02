@@ -15,4 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "PrographyImageSearchApp"
 include(":app")
- 
+include(":data")
+include(":domain")
