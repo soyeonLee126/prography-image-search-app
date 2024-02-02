@@ -5,14 +5,15 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.domain.usecase.model.UnSplashImage
+import com.example.data.model.UnsplashImage
+import com.example.domain.usecase.model.ImageModel
 
 @Dao
 interface UnSplashImageDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveImage(splashImage: UnSplashImage)
+    fun saveImage(splashImage: UnsplashImage)
     @Query("SELECT * FROM splash_images ORDER BY id ASC LIMIT 10 OFFSET (:page-1)*10")
-    fun getAllImage(page:Int): List<UnSplashImage>
+    fun getAllImage(page:Int): List<UnsplashImage>
     @Delete
-    suspend fun deleteImage(splashImage: UnSplashImage)
+    fun deleteImage(splashImage: UnsplashImage)
 }

@@ -2,22 +2,24 @@ package com.example.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.example.data.model.UnsplashImage
 import com.example.data.repository.datasource.UnsplashRemoteDataSource
 import com.example.data.util.Constants.STARTING_OFFSET
-import com.example.domain.usecase.model.UnSplashImage
+import com.example.data.util.Mapper.toDomain
+import com.example.domain.usecase.model.ImageModel
 import retrofit2.HttpException
 import java.io.IOException
 
 class RemotePagingSource(
     private val unsplashDatasource: UnsplashRemoteDataSource,
-) : PagingSource<Int, UnSplashImage>() {
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, UnSplashImage> {
+) : PagingSource<Int, ImageModel>() {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ImageModel> {
         return try {
             val page = params.key ?: STARTING_OFFSET
             val response = unsplashDatasource.getImageList(page=page)
 
-            val images = response.body()?.data?.results?.toMutableList() ?: emptyList()
-            val nextPage = if (page >= response.body()?.data?.total!!) null else page + 1
+            val images = response.body().toDomain()
+            val nextPage = page + 1
 
             LoadResult.Page(
                 data = images,
@@ -32,7 +34,7 @@ class RemotePagingSource(
     }
 
     override fun getRefreshKey(
-        state: PagingState<Int, UnSplashImage>
+        state: PagingState<Int, ImageModel>
     ): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(
