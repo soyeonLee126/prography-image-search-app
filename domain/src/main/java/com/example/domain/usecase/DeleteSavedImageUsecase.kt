@@ -1,7 +1,7 @@
 import com.example.domain.repository.UnsplashImageRepository
-import com.example.domain.usecase.model.UnSplashImage
+import com.example.domain.usecase.model.ImageModel
 
 class DeleteSavedImageUsecase(private val unsplashImageRepository: UnsplashImageRepository) {
-    suspend operator fun invoke(image: UnSplashImage) = unsplashImageRepository.deleteSavedImage(image)
+    suspend operator fun invoke(image: ImageModel) = unsplashImageRepository.deleteSavedImage(image)
 
 }
