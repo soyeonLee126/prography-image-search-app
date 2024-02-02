@@ -15,6 +15,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "BASE_URL", getApiKey("BASE_URL"))
     }
 
     buildTypes {
@@ -35,15 +36,24 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.2"
     }
 }
 
+fun getApiKey(propertyKey: String): String {
+    return com.android.build.gradle.internal.cxx.configure.gradleLocalProperties(rootDir).getProperty(propertyKey)
+}
+
 dependencies {
+    implementation(libs.retrofitGson)
+    implementation(libs.retrofit)
     implementation(libs.androidx.paging.compose)
+    implementation(libs.hilt.android)
     implementation(project(mapOf("path" to ":domain")))
+    implementation(project(mapOf("path" to ":data")))
     val composeBom = platform("androidx.compose:compose-bom:2023.01.00")
     implementation (composeBom)
     androidTestImplementation (composeBom)
