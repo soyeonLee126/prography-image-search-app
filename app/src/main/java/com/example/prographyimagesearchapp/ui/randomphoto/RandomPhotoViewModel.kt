@@ -20,12 +20,14 @@ class RandomPhotoViewModel @Inject constructor(
 ) : ViewModel() {
     val imageUsecases = imageUsecases
     val getRandomImage = imageUsecases.getRandomImagesUsecase()
-    var _saveFlow: MutableSharedFlow<Boolean> = MutableSharedFlow()
-    val saveFlow = _saveFlow
+    var _swipeFlow: MutableSharedFlow<Boolean> = MutableSharedFlow()
+    val swipeFlow = _swipeFlow
     fun saveImage(image: ImageModel) =
         CoroutineScope(Dispatchers.IO).launch {
-            _saveFlow.emit(false)
             imageUsecases.saveImageUseCase(image)
-            _saveFlow.emit(true)
+            _swipeFlow.emit(true)
         }
+    fun swipe() {
+        _swipeFlow.tryEmit(true)
+    }
 }

@@ -72,10 +72,10 @@ fun DetailCardBottomBar(
     viewModel: RandomPhotoViewModel = hiltViewModel(),
     state: PagerState
 ) {
-    val saveFlow = viewModel.saveFlow.collectAsState(initial = false)
+    val swipeFlow = viewModel.swipeFlow.collectAsState(initial = false)
 
-    LaunchedEffect(saveFlow.value) {
-        if(saveFlow.value) {
+    LaunchedEffect(swipeFlow.value) {
+        if(swipeFlow.value) {
             state.animateScrollToPage(state.currentPage + 1)
         }
     }
@@ -90,6 +90,9 @@ fun DetailCardBottomBar(
             contentDescription = null,
             modifier = Modifier
                 .padding(20.dp)
+                .clickable {
+                    viewModel.swipe()
+                }
         )
         Image(
             painter = painterResource(id = R.drawable.bookmarkbutton),
