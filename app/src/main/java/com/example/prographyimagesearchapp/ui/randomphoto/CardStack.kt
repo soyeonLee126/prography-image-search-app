@@ -2,22 +2,13 @@ package com.example.prographyimagesearchapp.ui.randomphoto
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import coil.compose.AsyncImage
 import com.example.domain.usecase.model.ImageModel
 import kotlin.math.roundToInt
 
@@ -25,7 +16,7 @@ import kotlin.math.roundToInt
 @Composable
 fun CardStack(
     modifier: Modifier = Modifier,
-    items: MutableList<ImageModel>,
+    items: List<ImageModel>,
     thresholdConfig: (Float, Float) -> ThresholdConfig = { _, _ -> FractionalThreshold(0.2f)},
     velocityThreshold: Dp = 125.dp,
     onSwipeLeft: (item: ImageModel) -> Unit = {},

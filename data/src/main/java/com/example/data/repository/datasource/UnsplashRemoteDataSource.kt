@@ -7,5 +7,5 @@ import retrofit2.Response
 interface UnsplashRemoteDataSource {
     suspend fun getImageList(page: Int): Response<List<UnsplashImage>>
     suspend fun getImageDetail(id: String): Response<UnsplashImage>
-    suspend fun getRandomImage(): Response<UnsplashImage>
+    suspend fun getRandomImage(): Response<List<UnsplashImage>>
 }

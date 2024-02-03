@@ -16,11 +16,11 @@ class RandomPhotoViewModel @Inject constructor(
     imageUsecases: ImageUsecases,
 ) : ViewModel() {
     val usecases = imageUsecases
-    var _imageFlow: MutableSharedFlow<ImageModel> = MutableSharedFlow()
+    var _imageFlow: MutableSharedFlow<List<ImageModel>> = MutableSharedFlow()
     val imageFlow = _imageFlow
     fun getRandomImage() {
         CoroutineScope(Dispatchers.IO).launch {
-            usecases.getRandomImagesUsecase()?.let { _imageFlow.emit(it) }
+            usecases.getRandomImagesUsecase()?.let { if(it.isNotEmpty()) _imageFlow.emit(it) }
         }
     }
 }

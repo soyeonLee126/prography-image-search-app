@@ -24,11 +24,15 @@ interface UnSplashApi {
 
     @Headers("Accept-Version: v1", "Authorization: Client-ID ${BuildConfig.UNSPLASH_ACCESS_KEY}")
     @GET("/photos/random")
-    suspend fun getRandomImage(): Response<UnsplashImage>
+    suspend fun getRandomImage(
+        @Query(
+            "client_id"
+        ) id: String = BuildConfig.UNSPLASH_ACCESS_KEY,
+    ): Response<List<UnsplashImage>>
 
     @Headers("Accept-Version: v1", "Authorization: Client-ID ${BuildConfig.UNSPLASH_ACCESS_KEY}")
-    @GET("/photos/{id}")
+    @GET("/photos/39n8YVSn0d4")
     suspend fun getImageDetail(
-        @Path("id") id: String,
+//        @Path("id") id: String,
     ): Response<UnsplashImage>
 }

@@ -1,17 +1,12 @@
 package com.example.prographyimagesearchapp.ui.randomphoto
 
-import com.example.prographyimagesearchapp.ui.detail.DetailViewModel
-
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.Button
@@ -20,14 +15,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
 import com.example.domain.usecase.model.ImageModel
 import com.example.domain.usecase.model.Urls
 import com.example.domain.usecase.model.User
@@ -40,16 +33,9 @@ fun RandomPhotoScreen(
     viewModel: RandomPhotoViewModel = hiltViewModel(),
 ) {
     viewModel.getRandomImage()
-    val randomImage = viewModel.imageFlow.collectAsState(
-        initial = ImageModel(
-            "",
-            "",
-            Urls("", "", "", "", ""),
-            User("", "")
-        )
-    )
+    val randomImage = viewModel.imageFlow.collectAsState(null)
     Column {
-        CardStack(items = mutableListOf(randomImage.value))
+        randomImage.value?.let { CardStack(items = it) }
         Row(horizontalArrangement = Arrangement.SpaceAround, modifier = Modifier.fillMaxWidth()) {
             Button(
                 shape = CircleShape,

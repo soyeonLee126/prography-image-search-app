@@ -64,7 +64,9 @@ fun DetailScreen(
             Image(
                 painter = painterResource(id = R.drawable.bookmark),
                 contentDescription = null,
-                modifier = Modifier.padding(20.dp),
+                modifier = Modifier.padding(20.dp).clickable {
+                    viewModel.saveImage(imageDetail.value!!)
+                },
             )
         }
         AsyncImage(

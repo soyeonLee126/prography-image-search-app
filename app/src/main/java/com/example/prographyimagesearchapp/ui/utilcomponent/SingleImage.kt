@@ -36,7 +36,16 @@ fun SingleImage(
                 .padding(top = 10.dp)
                 .width(180.dp)
                 .wrapContentHeight()
-                .clickable { navController.navigate("${Screen.Detail.route.replace("itemId", item.id)}") }
+                .clickable {
+                    navController.navigate(
+                        "${
+                            Screen.Detail.route.replace(
+                                "itemId",
+                                item.id
+                            )
+                        }"
+                    )
+                }
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
