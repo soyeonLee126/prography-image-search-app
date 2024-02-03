@@ -6,7 +6,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -55,13 +58,22 @@ fun HomeScreen(
                         .fillMaxWidth()
                 )
             }
-
             item {
-                if (bookmarkList.itemCount > 0) TabText(text = stringResource(id = R.string.head_bookmark))
-                LazyRow(modifier = modifier.fillMaxWidth()) {
-                    items(bookmarkList.itemCount) { index ->
-                        bookmarkList[index]?.let {
-                            SingleImage(item = it, navController = navController)
+                if (bookmarkList.itemCount > 0) {
+                    TabText(text = stringResource(id = R.string.head_bookmark))
+                    LazyRow(
+                        modifier = modifier
+                            .fillMaxWidth()
+                            .height(180.dp)
+                    ) {
+                        items(bookmarkList.itemCount) { index ->
+                            bookmarkList[index]?.let {
+                                SingleImage(
+                                    item = it,
+                                    navController = navController,
+                                    modifier = Modifier.wrapContentWidth()
+                                )
+                            }
                         }
                     }
                 }
@@ -69,22 +81,30 @@ fun HomeScreen(
             item {
                 if (imageList.itemCount > 0) TabText(text = stringResource(id = R.string.head_recent))
             }
-            items(imageList.itemCount) { index ->
+            items(imageList.itemCount / 2) { index ->
                 imageList[index]?.let {
-                    SingleImage(item = it, navController = navController)
+                    val index1 = index * 2
+                    Column {
+                        imageList[index1]?.let {
+                            SingleImage(
+                                item = it,
+                                navController = navController,
+                                modifier = Modifier.width(180.dp)
+                            )
+                        }
+                    }
+                    val index2 = index * 2 + 1
+                    imageList[index2]?.let {
+                        Column {
+                            SingleImage(
+                                item = it,
+                                navController = navController,
+                                modifier = Modifier.width(180.dp)
+                            )
+                        }
+                    }
                 }
             }
-//            items(imageList.itemCount / 2) { rowIndex ->
-//                Row(
-//                    modifier = Modifier.fillMaxWidth(),
-//                    horizontalArrangement = Arrangement.SpaceBetween
-//                ) {
-//                    val index1 = rowIndex * 2
-//                    imageList[index1]?.let { SingleImage(item = it, navController = navController) }
-//
-//                    val index2 = rowIndex * 2 + 1
-//                    imageList[index2]?.let { SingleImage(item = it, navController = navController) }
-//                }
         }
     }
 }

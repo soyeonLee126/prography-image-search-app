@@ -1,6 +1,5 @@
 package com.example.data.util
 
-import android.util.Log
 import com.example.data.model.UnsplashImage
 import com.example.domain.usecase.model.ImageModel
 import com.example.domain.usecase.model.Urls
@@ -10,14 +9,21 @@ object Mapper {
     fun List<UnsplashImage>?.toDomain(): List<ImageModel> {
         val responseList = mutableListOf<ImageModel>()
         this?.forEach {
-           val response = ImageModel(
-               id = it.id,
-               description = it.description,
-               urls = Urls(it.urls.raw, it.urls.full, it.urls.regular, it.urls.small, it.urls.thumb),
-               user = User(it.user.name, it.user.username)
-           )
-           responseList.add(response)
-       }
+            val response = ImageModel(
+                id = it.id,
+                description = it.description,
+                altDescription = it.alt_description,
+                urls = Urls(
+                    it.urls.raw,
+                    it.urls.full,
+                    it.urls.regular,
+                    it.urls.small,
+                    it.urls.thumb
+                ),
+                user = User(it.user.name, it.user.username)
+            )
+            responseList.add(response)
+        }
         return responseList
     }
 
@@ -26,10 +32,17 @@ object Mapper {
             ImageModel(
                 id = id,
                 description = description,
-                urls = Urls(it.urls.raw, it.urls.full, it.urls.regular, it.urls.small, it.urls.thumb),
+                altDescription = it.alt_description,
+                urls = Urls(
+                    it.urls.raw,
+                    it.urls.full,
+                    it.urls.regular,
+                    it.urls.small,
+                    it.urls.thumb
+                ),
                 user = User(it.user.name, it.user.username)
             )
-        }?: ImageModel("", "", Urls("", "", "", "", ""), User("", ""))
+        } ?: ImageModel("", "", "",  Urls("", "", "", "", ""), User("", ""))
     }
 
     fun ImageModel?.toData(): UnsplashImage {
@@ -37,9 +50,22 @@ object Mapper {
             UnsplashImage(
                 id = it.id,
                 description = it.description,
-                urls = UnsplashImage.UnsplashPhotoUrls(it.urls.raw, it.urls.full, it.urls.regular, it.urls.small, it.urls.thumb),
-                user = UnsplashImage.UnsplashUser(it.user.name, it.user.username)
+                alt_description = it.altDescription,
+                urls = UnsplashImage.UnsplashPhotoUrls(
+                    it.urls.raw,
+                    it.urls.full,
+                    it.urls.regular,
+                    it.urls.small,
+                    it.urls.thumb
+                ),
+                user = UnsplashImage.UnsplashUser(it.user.name, it.user.username),
             )
-        }?: UnsplashImage("", "", UnsplashImage.UnsplashPhotoUrls("", "", "", "", ""), UnsplashImage.UnsplashUser("", ""))
+        } ?: UnsplashImage(
+            "",
+            "",
+            "",
+            UnsplashImage.UnsplashPhotoUrls("", "", "", "", ""),
+            UnsplashImage.UnsplashUser("", ""),
+        )
     }
 }

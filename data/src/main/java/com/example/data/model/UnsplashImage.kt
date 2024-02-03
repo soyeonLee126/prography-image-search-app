@@ -3,6 +3,7 @@ package com.example.data.model
 import android.os.Parcelable
 import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
@@ -12,10 +13,11 @@ data class UnsplashImage(
     @PrimaryKey
     val id: String,
     val description: String?,
+    val alt_description: String?,
     @Embedded
     val urls: UnsplashPhotoUrls,
     @Embedded
-    val user: UnsplashUser
+    val user: UnsplashUser,
 ): Parcelable {
     @Parcelize
     data class UnsplashPhotoUrls(
@@ -29,7 +31,7 @@ data class UnsplashImage(
     data class UnsplashUser(
         val name: String,
         val username: String
-    ): Parcelable{
+    ): Parcelable {
         val attributionUrl get() = "https://unsplash.com/$username?utm_source=UnsplashMVVM&utm_medium=referral"
     }
 }

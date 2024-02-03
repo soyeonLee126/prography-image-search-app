@@ -85,7 +85,7 @@ fun DetailCardBottomBar(navController: NavController, modifier: Modifier = Modif
                     "${
                         Screen.Detail.route.replace(
                             "itemId",
-                            ""
+                            item.id
                         )
                     }"
                 )

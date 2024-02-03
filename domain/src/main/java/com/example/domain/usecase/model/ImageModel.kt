@@ -3,6 +3,7 @@ package com.example.domain.usecase.model
 data class ImageModel(
     val id: String,
     val description: String?,
+    val altDescription: String?,
     val urls: Urls,
     val user: User,
 )

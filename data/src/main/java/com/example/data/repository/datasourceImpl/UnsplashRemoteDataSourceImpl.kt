@@ -12,7 +12,7 @@ class UnsplashRemoteDataSourceImpl @Inject constructor(private val api: UnSplash
     override suspend fun getImageList(page: Int): Response<List<UnsplashImage>> {
         return api.getImageList(page, 10)
     }
-    override suspend fun getImageDetail(id: String): Response<UnsplashImage> = api.getImageDetail()
+    override suspend fun getImageDetail(id: String): Response<UnsplashImage> = api.getImageDetail(id)
 
     override suspend fun getRandomImage(): Response<List<UnsplashImage>> {
         return api.getRandomImage()

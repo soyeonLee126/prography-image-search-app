@@ -5,6 +5,8 @@ import com.example.data.model.UnsplashImage
 import com.example.data.util.Constants.LOAD_SIZE
 import com.example.domain.usecase.model.ImageModel
 import retrofit2.Response
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path
@@ -31,8 +33,8 @@ interface UnSplashApi {
     ): Response<List<UnsplashImage>>
 
     @Headers("Accept-Version: v1", "Authorization: Client-ID ${BuildConfig.UNSPLASH_ACCESS_KEY}")
-    @GET("/photos/39n8YVSn0d4")
+    @GET("/photos/{id}")
     suspend fun getImageDetail(
-//        @Path("id") id: String,
+        @Path("id") id: String,
     ): Response<UnsplashImage>
 }

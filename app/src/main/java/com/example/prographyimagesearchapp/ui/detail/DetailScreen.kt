@@ -6,6 +6,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -28,6 +31,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
+import com.example.domain.usecase.model.ImageModel
 import com.example.prographyimagesearchapp.R
 import com.example.prographyimagesearchapp.ui.home.HomeViewModel
 import kotlinx.coroutines.flow.collect
@@ -41,42 +45,56 @@ fun DetailScreen(
 
     val imageDetail = viewModel.imageDetailFlow.collectAsState(initial = null)
     Column {
-        Row(horizontalArrangement = Arrangement.SpaceAround, modifier = Modifier.fillMaxWidth()) {
-            Image(
-                modifier = Modifier
-                    .padding(10.dp)
-                    .clickable {
-                        navController.popBackStack()
-                    },
-                painter = painterResource(id = R.drawable.closebutton),
-                contentDescription = null,
-            )
-            Text(
-                text = "userName",
-                color = Color.White,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.ExtraBold,
-                modifier = Modifier.padding(top = 20.dp, bottom = 20.dp, end = 40.dp)
-            )
-            Image(
-                painter = painterResource(id = R.drawable.download),
-                contentDescription = null,
-                modifier = Modifier.padding(20.dp),
-            )
-            Image(
-                painter = painterResource(id = R.drawable.bookmark),
-                contentDescription = null,
-                modifier = Modifier
-                    .padding(20.dp)
-                    .clickable {
-                        viewModel.saveImage(imageDetail.value!!)
-                    },
-            )
+        imageDetail.value?.let {
+            DetailTopbar(navController = navController, imageDetail = it)
+            Card(modifier = Modifier.padding(10.dp)) {
+                AsyncImage(
+                    model = imageDetail.value?.urls?.full,
+                    contentDescription = "",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxHeight(0.8f)
+                )
+            }
+            Spacer(modifier = Modifier.size(10.dp))
+            Text(text = it.description?.take(20).toString(), color = Color.White)
+            Text(text = it.altDescription.toString(), color = Color.White)
         }
-        AsyncImage(
-            model = imageDetail.value?.urls?.full,
-            contentDescription = "",
-            contentScale = ContentScale.Crop,
+    }
+}
+
+@Composable
+fun DetailTopbar(viewModel:DetailViewModel = hiltViewModel(), navController: NavController, imageDetail: ImageModel) {
+    Row(horizontalArrangement = Arrangement.SpaceAround, modifier = Modifier.fillMaxWidth()) {
+        Image(
+            modifier = Modifier
+                .padding(10.dp)
+                .clickable {
+                    navController.popBackStack()
+                },
+            painter = painterResource(id = R.drawable.closebutton),
+            contentDescription = null,
+        )
+        Text(
+            text = "userName",
+            color = Color.White,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.ExtraBold,
+            modifier = Modifier.padding(top = 20.dp, bottom = 20.dp, end = 40.dp)
+        )
+        Image(
+            painter = painterResource(id = R.drawable.download),
+            contentDescription = null,
+            modifier = Modifier.padding(20.dp),
+        )
+        Image(
+            painter = painterResource(id = R.drawable.bookmark),
+            contentDescription = null,
+            modifier = Modifier
+                .padding(20.dp)
+                .clickable {
+                    viewModel.saveImage(imageDetail!!)
+                },
         )
     }
 }

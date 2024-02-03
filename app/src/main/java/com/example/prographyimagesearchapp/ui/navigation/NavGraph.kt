@@ -25,7 +25,7 @@ fun NavGraph(navController: NavHostController) {
             RandomPhotoScreen(navController = navController)
         }
         composable(
-            route = Screen.Detail.route,
+            route = "detail/{itemId}",
             arguments = listOf(navArgument("itemId") { type = NavType.StringType })
         ) { navBackStackEntry ->
             val itemId = navBackStackEntry.arguments?.getString("itemId")
