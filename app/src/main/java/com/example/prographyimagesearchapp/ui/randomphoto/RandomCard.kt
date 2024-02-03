@@ -1,5 +1,7 @@
 package com.example.prographyimagesearchapp.ui.randomphoto
 
+import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -10,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -19,19 +22,24 @@ import coil.compose.AsyncImage
 import com.example.domain.usecase.model.ImageModel
 import com.example.prographyimagesearchapp.R
 import androidx.compose.material3.Card
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.prographyimagesearchapp.ui.navigation.Screen
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RandomCard(
     modifier: Modifier = Modifier,
     navController: NavController,
     item: ImageModel,
-    viewModel: RandomPhotoViewModel = hiltViewModel()
+    state: PagerState
 ) {
     Card(
-        modifier.padding(20.dp).width(330.dp)
+        modifier
+            .padding(20.dp)
+            .width(330.dp)
     ) {
         Column(
             modifier
@@ -48,15 +56,29 @@ fun RandomCard(
                             .fillMaxWidth()
                             .height(450.dp)
                     )
-                    DetailCardBottomBar(navController = navController, item = item)
+                    DetailCardBottomBar(navController = navController, item = item, state = state)
                 }
             }
         }
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun DetailCardBottomBar(navController: NavController, modifier: Modifier = Modifier, item: ImageModel, viewModel: RandomPhotoViewModel = hiltViewModel()) {
+fun DetailCardBottomBar(
+    navController: NavController,
+    modifier: Modifier = Modifier,
+    item: ImageModel,
+    viewModel: RandomPhotoViewModel = hiltViewModel(),
+    state: PagerState
+) {
+    val saveFlow = viewModel.saveFlow.collectAsState(initial = false)
+
+    LaunchedEffect(saveFlow.value) {
+        if(saveFlow.value) {
+            state.animateScrollToPage(state.currentPage + 1)
+        }
+    }
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly,
         modifier = modifier
@@ -73,23 +95,24 @@ fun DetailCardBottomBar(navController: NavController, modifier: Modifier = Modif
             painter = painterResource(id = R.drawable.bookmarkbutton),
             contentDescription = null,
             modifier = Modifier
-                .padding(20.dp).clickable {
-                    viewModel.saveImage(item)
-                }
+                .padding(20.dp)
+                .clickable { viewModel.saveImage(item) }
         )
         Image(
             painter = painterResource(id = R.drawable.informationbutton),
             contentDescription = null,
-            modifier = Modifier.padding(20.dp).clickable {
-                navController.navigate(
-                    "${
-                        Screen.Detail.route.replace(
-                            "itemId",
-                            item.id
-                        )
-                    }"
-                )
-            }
+            modifier = Modifier
+                .padding(20.dp)
+                .clickable {
+                    navController.navigate(
+                        "${
+                            Screen.Detail.route.replace(
+                                "itemId",
+                                item.id
+                            )
+                        }"
+                    )
+                }
         )
     }
 }

@@ -40,13 +40,19 @@ import kotlinx.coroutines.flow.collect
 fun DetailScreen(
     navController: NavController, id: String, viewModel: DetailViewModel = hiltViewModel(),
 ) {
-//    viewModel.getImageDetailFromDB(id)
+    viewModel.getImageDetailFromDB(id)
     viewModel.getImageDetail(id)
 
     val imageDetail = viewModel.imageDetailFlow.collectAsState(initial = null)
+    val isBookmarked = viewModel.isBookmarkFlow.collectAsState(initial = false)
+
     Column {
         imageDetail.value?.let {
-            DetailTopbar(navController = navController, imageDetail = it)
+            DetailTopbar(
+                navController = navController,
+                imageDetail = it,
+                isBookmarked = isBookmarked.value
+            )
             Card(modifier = Modifier.padding(10.dp)) {
                 AsyncImage(
                     model = imageDetail.value?.urls?.full,
@@ -64,7 +70,13 @@ fun DetailScreen(
 }
 
 @Composable
-fun DetailTopbar(viewModel:DetailViewModel = hiltViewModel(), navController: NavController, imageDetail: ImageModel) {
+fun DetailTopbar(
+    viewModel: DetailViewModel = hiltViewModel(),
+    navController: NavController,
+    imageDetail: ImageModel,
+    isBookmarked: Boolean = false
+) {
+
     Row(horizontalArrangement = Arrangement.SpaceAround, modifier = Modifier.fillMaxWidth()) {
         Image(
             modifier = Modifier
@@ -88,12 +100,15 @@ fun DetailTopbar(viewModel:DetailViewModel = hiltViewModel(), navController: Nav
             modifier = Modifier.padding(20.dp),
         )
         Image(
+            alpha = if (isBookmarked) 1f else 0.5f,
             painter = painterResource(id = R.drawable.bookmark),
             contentDescription = null,
             modifier = Modifier
                 .padding(20.dp)
                 .clickable {
-                    viewModel.saveImage(imageDetail!!)
+                    if (!isBookmarked) viewModel.saveImage(imageDetail!!) else viewModel.deleteImage(
+                        imageDetail!!
+                    )
                 },
         )
     }

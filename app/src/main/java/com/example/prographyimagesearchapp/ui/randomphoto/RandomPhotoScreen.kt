@@ -20,7 +20,7 @@ fun RandomPhotoScreen(
     val imageList = viewModel.getRandomImage.collectAsLazyPagingItems()
     val pagerState = rememberPagerState{ imageList.itemCount}
     HorizontalPager(modifier = Modifier.fillMaxWidth(), state = pagerState) { page ->
-        RandomCard(navController = navController, item = imageList[page]!!)
+        RandomCard(navController = navController, item = imageList[page]!!, state = pagerState)
     }
 }
 
