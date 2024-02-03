@@ -62,9 +62,16 @@ fun DetailScreen(
                         .fillMaxHeight(0.8f)
                 )
             }
-            Spacer(modifier = Modifier.size(10.dp))
-            Text(text = it.description?.take(20).toString(), color = Color.White)
-            Text(text = it.altDescription.toString(), color = Color.White)
+            it.description?.let {
+                Text(
+                    text = it.take(20) ?: "",
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp,
+                    modifier = Modifier.padding(top = 20.dp, start = 20.dp)
+                )
+            }
+            it.altDescription?.let { Text(text = it, color = Color.White,  modifier = Modifier.padding(start = 20.dp, top = 5.dp)) }
         }
     }
 }
@@ -88,7 +95,7 @@ fun DetailTopbar(
             contentDescription = null,
         )
         Text(
-            text = "userName",
+            text = imageDetail.user.name,
             color = Color.White,
             fontSize = 20.sp,
             fontWeight = FontWeight.ExtraBold,
