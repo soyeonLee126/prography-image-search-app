@@ -8,7 +8,8 @@ interface UnsplashImageRepository {
     fun getImageList(): Flow<PagingData<ImageModel>>
     fun getSavedImageList(): Flow<PagingData<ImageModel>>
     suspend fun getImageDetail(id: String): ImageModel?
-    suspend fun getRandomImage(): List<ImageModel>
+    suspend fun getImageDetailFromDB(id: String): ImageModel?
+    fun getRandomImage(): Flow<PagingData<ImageModel>>
     suspend fun saveImage(image: ImageModel)
     suspend fun deleteSavedImage(image: ImageModel)
 }

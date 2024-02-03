@@ -2,7 +2,8 @@ package com.example.prographyimagesearchapp.di
 
 import DeleteSavedImageUsecase
 import GetImageListUsecase
-import GetSavedImgaeListUsecase
+import GetSavedImageListUsecase
+import GetSavedImageUsecase
 import SaveImageUsecase
 import com.example.domain.repository.UnsplashImageRepository
 import com.example.domain.usecase.GetImageDetailUsecase
@@ -20,9 +21,10 @@ object UseCaseModule {
     fun provideImageUseCases(imageRepository: UnsplashImageRepository) = ImageUsecases(
         getImageDetailUsecase = GetImageDetailUsecase(imageRepository),
         getImageListUseCase = GetImageListUsecase(imageRepository),
-        getSavedImageListUsecase = GetSavedImgaeListUsecase(imageRepository),
+        getSavedImageListUsecase = GetSavedImageListUsecase(imageRepository),
         getRandomImagesUsecase = GetRandomImagesUsecase(imageRepository),
         deleteSavedImageUseCase = DeleteSavedImageUsecase(imageRepository),
         saveImageUseCase = SaveImageUsecase(imageRepository),
+        getSavedImage = GetSavedImageUsecase(imageRepository)
     )
 }

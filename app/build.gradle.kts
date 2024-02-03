@@ -71,7 +71,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material")
-    implementation("androidx.compose.foundation:foundation-android:1.6.0")
+    implementation("androidx.compose.foundation:foundation-android:1.4.0")
     implementation ("androidx.compose.animation:animation")
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.0")
     implementation("androidx.core:core-ktx:1.9.0")

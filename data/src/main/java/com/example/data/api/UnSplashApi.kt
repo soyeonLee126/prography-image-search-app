@@ -26,8 +26,8 @@ interface UnSplashApi {
     @GET("/photos/random")
     suspend fun getRandomImage(
         @Query(
-            "client_id"
-        ) id: String = BuildConfig.UNSPLASH_ACCESS_KEY,
+            "count"
+        ) count: Int = 10,
     ): Response<List<UnsplashImage>>
 
     @Headers("Accept-Version: v1", "Authorization: Client-ID ${BuildConfig.UNSPLASH_ACCESS_KEY}")

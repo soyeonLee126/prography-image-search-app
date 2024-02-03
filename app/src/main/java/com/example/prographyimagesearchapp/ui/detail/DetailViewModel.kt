@@ -10,7 +10,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,13 +20,18 @@ class DetailViewModel @Inject constructor(
     var _imageDetailFlow: MutableSharedFlow<ImageModel> = MutableSharedFlow()
     val imageDetailFlow = _imageDetailFlow
     fun getImageDetail(id: String) {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch {
             imageUsecases.getImageDetailUsecase(id)?.let { _imageDetailFlow.emit(it) }
         }
     }
-    fun saveImage(image: ImageModel) {
+
+    fun getImageDetailFromDB(id:String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            imageUsecases.getSavedImage(id)?.let { _imageDetailFlow.emit(it) }
+        }
+    }
+    fun saveImage(image: ImageModel) =
         CoroutineScope(Dispatchers.IO).launch {
             imageUsecases.saveImageUseCase(image)
         }
-    }
 }

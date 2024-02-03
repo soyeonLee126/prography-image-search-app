@@ -36,7 +36,9 @@ import kotlinx.coroutines.flow.collect
 fun DetailScreen(
     navController: NavController, id: String, viewModel: DetailViewModel = hiltViewModel(),
 ) {
+//    viewModel.getImageDetailFromDB(id)
     viewModel.getImageDetail(id)
+
     val imageDetail = viewModel.imageDetailFlow.collectAsState(initial = null)
     Column {
         Row(horizontalArrangement = Arrangement.SpaceAround, modifier = Modifier.fillMaxWidth()) {
@@ -64,9 +66,11 @@ fun DetailScreen(
             Image(
                 painter = painterResource(id = R.drawable.bookmark),
                 contentDescription = null,
-                modifier = Modifier.padding(20.dp).clickable {
-                    viewModel.saveImage(imageDetail.value!!)
-                },
+                modifier = Modifier
+                    .padding(20.dp)
+                    .clickable {
+                        viewModel.saveImage(imageDetail.value!!)
+                    },
             )
         }
         AsyncImage(
