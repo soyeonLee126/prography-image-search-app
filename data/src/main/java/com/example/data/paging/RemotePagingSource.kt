@@ -1,8 +1,8 @@
 package com.example.data.paging
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.data.model.UnsplashImage
 import com.example.data.repository.datasource.UnsplashRemoteDataSource
 import com.example.data.util.Constants.STARTING_OFFSET
 import com.example.data.util.Mapper.toDomain
@@ -15,16 +15,12 @@ class RemotePagingSource(
 ) : PagingSource<Int, ImageModel>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ImageModel> {
         return try {
-            val page = params.key ?: STARTING_OFFSET
-            val response = unsplashDatasource.getImageList(page=page)
-
-            val images = response.body().toDomain()
-            val nextPage = page + 1
-
+            val currentPage = params.key ?: STARTING_OFFSET
+            val response = unsplashDatasource.getImageList(page = currentPage).body().toDomain()
             LoadResult.Page(
-                data = images,
-                prevKey = null,
-                nextKey = nextPage
+                data = response,
+                prevKey = if (currentPage == STARTING_OFFSET) null else currentPage - 1,
+                nextKey = if (response.isEmpty()) null else currentPage + 1
             )
         } catch (exception: IOException) {
             return LoadResult.Error(exception)
@@ -33,15 +29,11 @@ class RemotePagingSource(
         }
     }
 
-    override fun getRefreshKey(
-        state: PagingState<Int, ImageModel>
-    ): Int? {
-        return state.anchorPosition?.let { anchorPosition ->
-            val anchorPage = state.closestPageToPosition(
-                anchorPosition
-            )
-            anchorPage?.prevKey?.plus(1) ?:
-            anchorPage?.nextKey?.minus(1)
+    override fun getRefreshKey(state: PagingState<Int, ImageModel>): Int? {
+        return state.anchorPosition?.let { position ->
+            state.closestPageToPosition(position)?.prevKey?.plus(1)
+                ?: state.closestPageToPosition(position)?.nextKey?.minus(1)
         }
     }
+
 }

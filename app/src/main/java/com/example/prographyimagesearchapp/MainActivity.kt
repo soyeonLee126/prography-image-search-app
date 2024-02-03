@@ -11,10 +11,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import com.example.prographyimagesearchapp.ui.detail.DetailScreen
+import com.example.prographyimagesearchapp.ui.home.HomeScreen
 import com.example.prographyimagesearchapp.ui.navigation.BottomNavigationBar
 import com.example.prographyimagesearchapp.ui.navigation.NavGraph
 import com.example.prographyimagesearchapp.ui.theme.AppTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavHostController
 

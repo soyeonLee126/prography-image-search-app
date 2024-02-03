@@ -1,13 +1,15 @@
 package com.example.prographyimagesearchapp.ui.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+
 import androidx.lifecycle.ViewModel
+import com.example.domain.usecase.ImageUsecases
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class HomeViewModel : ViewModel() {
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
-    }
-    val text: LiveData<String> = _text
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    imageUsecases: ImageUsecases,
+) : ViewModel() {
+    val getImageListUseCase = imageUsecases.getImageListUseCase()
+    val bookmarkedListUseCase = imageUsecases.getSavedImageListUsecase()
 }

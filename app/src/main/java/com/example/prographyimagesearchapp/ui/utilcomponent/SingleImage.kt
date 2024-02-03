@@ -1,53 +1,58 @@
 package com.example.prographyimagesearchapp.ui.utilcomponent
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Card
+import androidx.compose.material3.Text
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.example.domain.usecase.model.ImageModel
+import com.example.prographyimagesearchapp.ui.navigation.Screen
 
 
 @Composable
 fun SingleImage(
-    imageUrl: String = "https://fastly.picsum.photos/id/468/200/300.jpg?hmac=_y9LVzJfrmELvOun_dpNOKoPajv8_vT3t3IPS6Jbhk4"
+    navController: NavController,
+    item: ImageModel,
 ) {
-     Card(
+    Box(
         modifier = Modifier
-            .padding(top = 10.dp)
-            .height(180.dp)
+            .wrapContentSize()
     ) {
-        Column(
+        Card(
             modifier = Modifier
-                .fillMaxHeight()
-                .padding(
-                    all = 15.dp
-                ),
+                .padding(top = 10.dp)
+                .width(180.dp)
+                .wrapContentHeight()
+                .clickable { navController.navigate("${Screen.Detail.route.replace("itemId", item.id)}") }
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(imageUrl)
+                    .data(item.urls.regular)
                     .crossfade(true)
                     .build(),
                 contentDescription = null,
             )
-
+        }
+        item.description?.let {
+            Text(
+                color = Color.White,
+                text = it.take(20),
+                modifier = Modifier
+                    .padding(20.dp)
+            )
         }
     }
-}
-
-@Preview
-@Composable
-fun SingleImagePreview() {
-    SingleImage()
 }

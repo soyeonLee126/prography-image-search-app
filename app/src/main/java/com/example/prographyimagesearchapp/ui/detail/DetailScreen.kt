@@ -1,9 +1,8 @@
-package com.example.prographyimagesearchapp.ui.randomphoto
-
-import com.example.prographyimagesearchapp.ui.detail.DetailViewModel
+package com.example.prographyimagesearchapp.ui.detail
 
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,45 +21,34 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
-import com.example.domain.usecase.model.ImageModel
-import com.example.domain.usecase.model.Urls
-import com.example.domain.usecase.model.User
 import com.example.prographyimagesearchapp.R
+import com.example.prographyimagesearchapp.ui.home.HomeViewModel
+import kotlinx.coroutines.flow.collect
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun RandomPhotoScreen(
-    navController: NavController,
-    viewModel: RandomPhotoViewModel = hiltViewModel(),
+fun DetailScreen(
+    navController: NavController, id: String, viewModel: DetailViewModel = hiltViewModel(),
 ) {
-    viewModel.getRandomImage()
-    val randomImage = viewModel.imageFlow.collectAsState(
-        initial = ImageModel(
-            "",
-            "",
-            Urls("", "", "", "", ""),
-            User("", "")
-        )
-    )
+    viewModel.getImageDetail(id)
+    val imageDetail = viewModel.imageDetailFlow.collectAsState(initial = null)
     Column {
-        CardStack(items = mutableListOf(randomImage.value))
         Row(horizontalArrangement = Arrangement.SpaceAround, modifier = Modifier.fillMaxWidth()) {
-            Button(
-                shape = CircleShape,
-                onClick = { navController.popBackStack() },
-                modifier = Modifier.size(50.dp),
-            ) {
-                Image(
-                    modifier = Modifier.size(40.dp),
-                    painter = painterResource(id = R.drawable.close),
-                    contentDescription = null,
-                )
-            }
+            Image(
+                modifier = Modifier
+                    .padding(10.dp)
+                    .clickable {
+                        navController.popBackStack()
+                    },
+                painter = painterResource(id = R.drawable.closebutton),
+                contentDescription = null,
+            )
             Text(
                 text = "userName",
                 color = Color.White,
@@ -80,5 +67,10 @@ fun RandomPhotoScreen(
                 modifier = Modifier.padding(20.dp),
             )
         }
+        AsyncImage(
+            model = imageDetail.value?.urls?.full,
+            contentDescription = "",
+            contentScale = ContentScale.Crop,
+        )
     }
 }

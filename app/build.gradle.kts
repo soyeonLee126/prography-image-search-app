@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id ("dagger.hilt.android.plugin")
+    kotlin("kapt")
 }
 
 android {
@@ -50,10 +52,17 @@ fun getApiKey(propertyKey: String): String {
 dependencies {
     implementation(libs.retrofitGson)
     implementation(libs.retrofit)
+
     implementation(libs.androidx.paging.compose)
+
     implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+    implementation(libs.hilt.gradle.plugin)
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+
     implementation(project(mapOf("path" to ":domain")))
     implementation(project(mapOf("path" to ":data")))
+
     val composeBom = platform("androidx.compose:compose-bom:2023.01.00")
     implementation (composeBom)
     androidTestImplementation (composeBom)
@@ -61,6 +70,7 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.7.2")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material:material")
     implementation("androidx.compose.foundation:foundation-android:1.6.0")
     implementation ("androidx.compose.animation:animation")
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.0")
