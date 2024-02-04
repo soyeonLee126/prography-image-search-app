@@ -2,6 +2,7 @@ package com.example.prographyimagesearchapp.ui.detail
 
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -44,10 +45,13 @@ fun DetailScreen(
     viewModel.getImageDetail(id)
 
     val imageDetail = viewModel.imageDetailFlow.collectAsState(initial = null)
+    val imageDetailFromDB = viewModel.imageDetailFromDBFlow.collectAsState(initial = null)
     val isBookmarked = viewModel.isBookmarkFlow.collectAsState(initial = false)
 
-    Column {
-        imageDetail.value?.let {
+    val image = if(imageDetail.value?.id != "") imageDetail.value else imageDetailFromDB.value
+
+    Column(modifier = Modifier.fillMaxSize().background(Color.Black)) {
+        image?.let {
             DetailTopbar(
                 navController = navController,
                 imageDetail = it,
@@ -55,7 +59,7 @@ fun DetailScreen(
             )
             Card(modifier = Modifier.padding(10.dp)) {
                 AsyncImage(
-                    model = imageDetail.value?.urls?.full,
+                    model = image.urls?.full,
                     contentDescription = "",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -83,7 +87,6 @@ fun DetailTopbar(
     imageDetail: ImageModel,
     isBookmarked: Boolean = false
 ) {
-
     Row(horizontalArrangement = Arrangement.SpaceAround, modifier = Modifier.fillMaxWidth()) {
         Image(
             modifier = Modifier

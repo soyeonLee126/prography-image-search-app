@@ -49,7 +49,6 @@ fun SingleImage(
         Card(
             modifier = modifier
                 .padding(top = 10.dp)
-                .fillMaxWidth()
                 .wrapContentHeight()
                 .clickable {
                     navController.navigate(
@@ -76,8 +75,9 @@ fun SingleImage(
                 maxLines = 2,
                 color = Color.White,
                 text = it,
-                modifier = Modifier
+                modifier = modifier
                     .padding(20.dp)
+                    .fillMaxWidth()
             )
         }
     }

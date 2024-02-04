@@ -41,7 +41,6 @@ class UnsplashImageRepositoryImpl(
         ).flow
     }
     override suspend fun getImageDetail(id: String): ImageModel {
-        Log.e("111111", "getImageDetail: ${id}" )
         return remoteDataSource.getImageDetail(id).body().toDomain()
     }
 

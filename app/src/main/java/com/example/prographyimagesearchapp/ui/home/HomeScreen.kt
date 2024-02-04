@@ -13,9 +13,13 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -33,9 +37,14 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val lazyListState = rememberLazyListState()
+    val lazyGridListState = rememberLazyStaggeredGridState()
 
     val imageList = viewModel.getImageListUseCase.collectAsLazyPagingItems()
     val bookmarkList = viewModel.bookmarkedListUseCase.collectAsLazyPagingItems()
+
+    LaunchedEffect(lazyGridListState){
+        Log.e("1111111", "HomeScreen: 111111", )
+    }
 
     Surface(modifier = modifier.fillMaxWidth()) {
         LazyColumn(
@@ -71,7 +80,7 @@ fun HomeScreen(
                                 SingleImage(
                                     item = it,
                                     navController = navController,
-                                    modifier = Modifier.wrapContentWidth()
+                                    modifier = Modifier.width(180.dp)
                                 )
                             }
                         }
@@ -81,21 +90,16 @@ fun HomeScreen(
             item {
                 if (imageList.itemCount > 0) TabText(text = stringResource(id = R.string.head_recent))
             }
-            items(imageList.itemCount / 2) { index ->
-                imageList[index]?.let {
-                    val index1 = index * 2
-                    Column {
-                        imageList[index1]?.let {
-                            SingleImage(
-                                item = it,
-                                navController = navController,
-                                modifier = Modifier.width(180.dp)
-                            )
-                        }
-                    }
-                    val index2 = index * 2 + 1
-                    imageList[index2]?.let {
-                        Column {
+            item {
+                LazyVerticalStaggeredGrid(
+                    state = lazyGridListState,
+                    columns = StaggeredGridCells.Fixed(count = 2),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(1400.dp)
+                ) {
+                    items(imageList.itemCount) { index ->
+                        imageList[index]?.let {
                             SingleImage(
                                 item = it,
                                 navController = navController,
@@ -107,4 +111,5 @@ fun HomeScreen(
             }
         }
     }
+
 }

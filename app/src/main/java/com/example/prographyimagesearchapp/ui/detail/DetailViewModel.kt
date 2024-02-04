@@ -20,6 +20,8 @@ class DetailViewModel @Inject constructor(
     val imageUsecases = imageUsecases
     var _imageDetailFlow: MutableSharedFlow<ImageModel> = MutableSharedFlow()
     val imageDetailFlow = _imageDetailFlow
+    var _imageDetailFromDBFlow: MutableSharedFlow<ImageModel> = MutableSharedFlow()
+    val imageDetailFromDBFlow = _imageDetailFromDBFlow
     var _isBookmarkFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isBookmarkFlow = _isBookmarkFlow
     fun getImageDetail(id: String) {
@@ -31,7 +33,10 @@ class DetailViewModel @Inject constructor(
     fun getImageDetailFromDB(id:String) {
         CoroutineScope(Dispatchers.IO).launch {
             imageUsecases.getSavedImage(id)?.let {
-                _isBookmarkFlow.emit(it.id != "")
+                if(it.id != ""){
+                    _isBookmarkFlow.emit(true)
+                    _imageDetailFromDBFlow.emit(it)
+                }
             }
         }
     }
