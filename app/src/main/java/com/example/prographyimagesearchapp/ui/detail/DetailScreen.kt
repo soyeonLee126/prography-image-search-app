@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
@@ -102,7 +103,7 @@ fun DetailTopbar(
             color = Color.White,
             fontSize = 20.sp,
             fontWeight = FontWeight.ExtraBold,
-            modifier = Modifier.padding(top = 20.dp, bottom = 20.dp, end = 40.dp)
+            modifier = Modifier.padding(top = 20.dp, bottom = 20.dp, end = 40.dp).width(130.dp)
         )
         Image(
             painter = painterResource(id = R.drawable.download),

@@ -1,5 +1,6 @@
 package com.example.prographyimagesearchapp.ui.utilcomponent
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.magnifier
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import coil.compose.AsyncImage
@@ -57,11 +59,12 @@ fun SingleImage(
                                 "itemId",
                                 item.id
                             )
-                        }"
+                        }",
                     )
                 }
         ) {
             AsyncImage(
+                modifier = modifier.background(Color.LightGray),
                 contentScale = ContentScale.FillHeight,
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(item.urls.regular)
@@ -77,7 +80,7 @@ fun SingleImage(
                 text = it,
                 modifier = modifier
                     .padding(20.dp)
-                    .fillMaxWidth()
+                    .matchParentSize()
             )
         }
     }

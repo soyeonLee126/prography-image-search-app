@@ -20,7 +20,7 @@ fun BottomNavigationBar(navController: NavController) {
         ) {
             items.forEach { screen ->
                 IconButton(onClick = {
-                    navController.navigate(screen.route)
+                    navController.navigate(route = screen.route)
                 }) {
                     Icon(
                         painter = painterResource(id = screen.icon),

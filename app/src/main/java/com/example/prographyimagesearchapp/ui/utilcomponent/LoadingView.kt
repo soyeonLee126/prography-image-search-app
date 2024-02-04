@@ -1,11 +1,14 @@
 package com.example.prographyimagesearchapp.ui.utilcomponent
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -46,12 +49,14 @@ fun LoadingItem() {
 fun EmptyItem() {
     Text(
         style = MaterialTheme.typography.bodySmall,
-        color = Color.White,
+        color = if(isSystemInDarkTheme()) Color.White else Color.Black,
         text= stringResource(R.string.no_more_data_msg),
         modifier = Modifier
+            .fillMaxHeight()
             .fillMaxWidth()
-            .padding(20.dp)
+            .padding(60.dp)
             .wrapContentWidth(Alignment.CenterHorizontally)
+            .wrapContentHeight(Alignment.CenterVertically)
     )
 }
 

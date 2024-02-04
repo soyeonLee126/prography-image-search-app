@@ -108,12 +108,12 @@ fun DetailCardBottomBar(
                 .padding(20.dp)
                 .clickable {
                     navController.navigate(
-                        "${
+                        route = "${
                             Screen.Detail.route.replace(
                                 "itemId",
                                 item.id
                             )
-                        }"
+                        }",
                     )
                 }
         )
