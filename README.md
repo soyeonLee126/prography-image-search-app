@@ -20,6 +20,7 @@ Prography의 9기 모바일 과제입니다! 좋은 기회 주셔서 감사합�
 - DI는 Hilt를 사용했습니다
 - Local DB는 Room을 사용했습니다.
 - 무한 리스트 로딩은 Paging을 사용했습니다.
+- Random Photo Load의 경우, 10개씩 불러와 좌우로 무한으로 붙이게끔 구현했습니다.
 - 카드 스와이프는 Compose의 HorizontalPager를 사용했습니다.
 - network는 Retrofit을 활용했습니다.</br></br></br></br>
 
