@@ -23,7 +23,4 @@ class RandomPhotoViewModel @Inject constructor(
             _swipeFlow.emit(false)
             imageUsecases.saveImageUseCase(image).let { _swipeFlow.emit(true) }
         }
-    fun swipe() {
-        _swipeFlow.tryEmit(true)
-    }
 }

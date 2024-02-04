@@ -91,7 +91,7 @@ fun DetailCardBottomBar(
             modifier = Modifier
                 .padding(20.dp)
                 .clickable {
-                    viewModel.swipe()
+                    navController.popBackStack()
                 }
         )
         Image(
