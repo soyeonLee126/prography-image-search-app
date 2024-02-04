@@ -27,5 +27,9 @@ Prography의 9기 모바일 과제입니다! 좋은 기회 주셔서 감사합�
 
 
 ### 피그마와 다르게 구현된 점 </br>
-- Unsplash API에서 title 필드를 찾을 수 없어, title은 description, description은 alt_description을 사용했습니다.
+- Unsplash API에서 title 필드를 찾을 수 없어, title은 description, description은 alt_description을 사용했습니다.</br></br></br></br>
+
+### 테스트 안내 </br>
+- unSplash Demo API는 시간당 api call이 50회로 재한되어있음을 발견했습니다. 참고 부탁드립니다.
+
 
