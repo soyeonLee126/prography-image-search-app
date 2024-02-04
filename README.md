@@ -31,5 +31,6 @@ Prography의 9기 모바일 과제입니다! 좋은 기회 주셔서 감사합�
 
 ### 테스트 안내 </br>
 - unSplash Demo API는 시간당 api call이 50회로 재한되어있음을 발견했습니다. 참고 부탁드립니다.
+- api_key는 local.properties에 있어 git엔 포함되어있지않습니다. 해당 내용은 메일로 함께 첨부드리니 확인 부탁드립니다!
 
 
