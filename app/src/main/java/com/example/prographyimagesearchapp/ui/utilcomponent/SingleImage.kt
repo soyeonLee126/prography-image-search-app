@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.domain.usecase.model.ImageModel
@@ -42,7 +43,7 @@ fun SingleImage(
 ) {
     Box(
         modifier = modifier
-            .padding(5.dp)
+            .padding(horizontal = 5.dp)
             .fillMaxWidth(0.9f),
         contentAlignment = Alignment.BottomStart
     ) {
@@ -74,6 +75,7 @@ fun SingleImage(
         }
         item.description?.let {
             Text(
+                textAlign = TextAlign.End,
                 maxLines = 2,
                 color = Color.White,
                 text = it,
